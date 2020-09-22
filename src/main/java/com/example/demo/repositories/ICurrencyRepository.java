@@ -9,5 +9,6 @@ import java.util.List;
 
 public interface ICurrencyRepository extends JpaRepository<Currency, Integer> {
     List<Currency> findAll();
+    Currency findByNumcode(int numcode);
     //Currency findById();
 }

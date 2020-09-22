@@ -15,7 +15,11 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
+import java.util.SimpleTimeZone;
+import java.util.TimeZone;
 
 @Controller
 public class ConverterController {
@@ -25,8 +29,6 @@ public class ConverterController {
     @Autowired
     private DatesService datesService;
 
-    @Autowired
-    private CourseCbr xml;
 
 
     @GetMapping(value = "/")
@@ -45,10 +47,18 @@ public class ConverterController {
 
     @GetMapping("/greeting")
     public String greeting(@RequestParam(value="name", required=false, defaultValue="World")String name, Model model) throws IOException, SAXException, ParserConfigurationException {
-        System.out.println(xml.getXML());
-        model.addAttribute("exchangeRates",xml.getXML());
+        //System.out.println(xml.getXML());
+        //model.addAttribute("exchangeRates",xml.getXML());
         //Dates date=datesService.getOne(1);
         //System.out.println(date.toString());
+
+        Date date = new Date(Calendar.getInstance().getTime().getTime());
+        //Date date = Date.valueOf("2020-02-08");
+        Dates dates = datesService.getOneByDaterequest(date);
+        System.out.println(new Date(Calendar.getInstance().getTime().getTime()));
+        //System.out.println(dates.toString());
+
+
         return "greeting";
     }
 

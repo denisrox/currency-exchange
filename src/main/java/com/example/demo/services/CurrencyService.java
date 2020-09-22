@@ -31,4 +31,22 @@ public class CurrencyService {
 
     }
 
+    public Currency getOneByNumcode(int numcode){
+        Currency currency = iCurrencyRepository.findByNumcode(numcode);
+//        if(currency == null){
+//            currency = new Currency();
+//            currency.setNumcode(Integer.parseInt(nodeList.item(0).getChildNodes().item(x).getChildNodes().item(1).getTextContent()));
+//            currency.setTitle((nodeList.item(0).getChildNodes().item(x).getChildNodes().item(1).getTextContent()));
+//
+//        }
+        return currency;
+    }
+    public Currency createNewCurrency(int numCode, String title){
+        Currency currency = new Currency();
+        currency.setTitle(title);
+        currency.setNumcode(numCode);
+        iCurrencyRepository.save(currency);
+        return currency;
+    }
+
 }

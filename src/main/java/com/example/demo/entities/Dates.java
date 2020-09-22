@@ -11,13 +11,13 @@ import java.util.List;
 @Entity
 public class Dates {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     private Date daterequest;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "orders", // название таблицы
+            name = "orderss", // название таблицы
             joinColumns = @JoinColumn(name = "dateid"),  // то что связываем
             inverseJoinColumns = @JoinColumn(name = "currencyid") // то на что связываем
     )
@@ -30,6 +30,6 @@ public class Dates {
         for (Currency o : currencyList) {
             allCurrency += o.getTitle() + " ";
         }
-        return "Reader [id:" + id+" size:" +currencyList.size()+ " " + daterequest + " " + allCurrency + "]";
+        return "Dates [id:" + id+" size:" +currencyList.size()+ " " + daterequest + " " + allCurrency + "]";
     }
 }

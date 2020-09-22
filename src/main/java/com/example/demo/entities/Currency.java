@@ -9,16 +9,16 @@ import java.util.List;
 @Entity
 public class Currency {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     private int numcode;
 
     private String title;
 
-    @ManyToMany
+    @ManyToMany//(mappedBy = "currencyList")
     @JoinTable(
-            name = "orders",
+            name = "orderss",
             joinColumns = @JoinColumn(name = "currencyid"),  // то что связываем
             inverseJoinColumns = @JoinColumn(name = "dateid") // то на что связываем
     )
