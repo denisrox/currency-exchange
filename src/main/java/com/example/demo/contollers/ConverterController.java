@@ -55,7 +55,7 @@ public class ConverterController {
         Date date = new Date(Calendar.getInstance().getTime().getTime());
         //Date date = Date.valueOf("2020-02-08");
         Dates dates = datesService.getOneByDaterequest(date);
-        System.out.println(new Date(Calendar.getInstance().getTime().getTime()));
+        //System.out.println(new Date(Calendar.getInstance().getTime().getTime()));
         //System.out.println(dates.toString());
 
 

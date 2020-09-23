@@ -28,9 +28,10 @@ public class CourseCbr {
         try {
             DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document document = documentBuilder.parse("http://www.cbr.ru/scripts/XML_daily.asp");
-
             NodeList nodeList = document.getChildNodes();
-            for(int x=0,size= 34; x<size; x++) {
+            int countElements = nodeList.item(0).getChildNodes().getLength();
+
+            for(int x=0; x<countElements; x++) {
                 int numCode=Integer.parseInt(nodeList.item(0).getChildNodes().item(x).getChildNodes().item(0).getTextContent());
                 float value=Float.parseFloat((nodeList.item(0).getChildNodes().item(x).getChildNodes().item(4).getTextContent()).replace(',','.'));
 

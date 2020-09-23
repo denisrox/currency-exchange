@@ -26,7 +26,6 @@ public class DatesService {
     public Dates getOneByDaterequest(Date date){
         Dates dates = iDatesRepository.findByDaterequest(date);
         if(dates == null){
-            System.out.println("создаем новую дату");
             CreateNewDates(date, dates);
         }
         return dates;
