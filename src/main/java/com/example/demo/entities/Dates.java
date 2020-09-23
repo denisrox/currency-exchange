@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -15,21 +16,31 @@ public class Dates {
     private Integer id;
 
     private Date daterequest;
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "orderss", // название таблицы
-            joinColumns = @JoinColumn(name = "dateid"),  // то что связываем
-            inverseJoinColumns = @JoinColumn(name = "currencyid") // то на что связываем
-    )
-    private List<Currency> currencyList;
 
+    @OneToMany(
+            mappedBy = "dates",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Orders> listOrders=new ArrayList<>();
+
+    public Dates(){};
+    public Dates(Date daterequest){
+        this.daterequest=daterequest;
+    }
+
+    public void addCurrency(Currency currency) {
+        Orders orders = new Orders(this, currency);
+        listOrders.add(orders);
+        currency.getListOrders().add(orders);
+    }
     @Override
     public String toString() {
 
-        String allCurrency = "";
-        for (Currency o : currencyList) {
-            allCurrency += o.getTitle() + " ";
+        String allOrders = "";
+        for (Orders o : listOrders) {
+            allOrders += o.getValue() + " ";
         }
-        return "Dates [id:" + id+" size:" +currencyList.size()+ " " + daterequest + " " + allCurrency + "]";
+        return "Dates [id:" + id+" size:" +listOrders.size()+ " " + daterequest + " " + allOrders + "]";
     }
 }

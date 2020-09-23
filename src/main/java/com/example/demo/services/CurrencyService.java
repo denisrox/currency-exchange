@@ -15,9 +15,9 @@ public class CurrencyService {
     @Autowired
     private ICurrencyRepository iCurrencyRepository;
 
-    public Currency findOneById(Integer id){
-        //Currency currency = ICurrencyRepository.findById(id).orElseThrow(() -> new Exception(""));
-        return new Currency();//currency;
+    public Currency findOneById(int id){
+        Currency currency = iCurrencyRepository.getOne(id);//.orElseThrow(() -> new Exception(""));
+        return currency;//currency;
     }
     public List<Currency> findAll(){
 
@@ -33,12 +33,12 @@ public class CurrencyService {
 
     public Currency getOneByNumcode(int numcode){
         Currency currency = iCurrencyRepository.findByNumcode(numcode);
-//        if(currency == null){
-//            currency = new Currency();
-//            currency.setNumcode(Integer.parseInt(nodeList.item(0).getChildNodes().item(x).getChildNodes().item(1).getTextContent()));
-//            currency.setTitle((nodeList.item(0).getChildNodes().item(x).getChildNodes().item(1).getTextContent()));
-//
-//        }
+        /*if(currency == null){
+            currency = new Currency();
+            currency.setNumcode(Integer.parseInt(nodeList.item(0).getChildNodes().item(x).getChildNodes().item(1).getTextContent()));
+            currency.setTitle((nodeList.item(0).getChildNodes().item(x).getChildNodes().item(1).getTextContent()));
+
+        }*/
         return currency;
     }
     public Currency createNewCurrency(int numCode, String title){
