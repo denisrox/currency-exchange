@@ -2,16 +2,39 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Getting Started: Serving Web Content</title>
+    <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<h1>Курс валют на сегодня:</h1>
 
-<form method="post" action="/filter">
-    <input type="text" name="filter" />
-    <button type="submit">Найти</button>
-</form>
+<div class="mainDiv">
+    <h1 th:text="${date}">Курс валют на сегодня</h1>
+    <form method="get" action="/greeting">
+        <div class="container">
+            <div class="block">
+                <select name="fromSelect">
+                    <option th:each="currency, stat : ${currencyes}" th:value="${currency.getCurrency().getNumcode()}" th:text="${currency.getCurrency().getTitle()}">
+                    </option>
+                </select>
+                <input type="text" name="fromInput" />
+            </div>
+            <div class="block">
+                <select name="toSelect">
+                    <option th:each="currency, stat : ${currencyes}" th:value="${currency.getCurrency().getNumcode()}" th:text="${currency.getCurrency().getTitle()}">
+                    </option>
+                </select>
+                <input type="text" readonly="readonly" />
+            </div>
+            <br>
+            <button type="submit">Конвертировать</button>
+            <input type="date" name="dateInput">
+        </div>
+
+
+    </form>
+</div>
     <table >
+
         <tr>
             <th>Наименование</th>
             <th>Курс</th>

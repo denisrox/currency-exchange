@@ -18,5 +18,14 @@ public class OrdersService {
     @Autowired
     private CourseCbr curseCbr;
 
+    public float getValueById(Integer dateId,Integer currencyId){
+        System.out.println(dateId);
+        System.out.println(currencyId);
+        float x= iOrdersRepository.getOrdersByDatesIdAndCurrencyId(dateId,currencyId);//.getValue();
+        System.out.println(x);
+        return iOrdersRepository.getOrdersByDatesIdAndCurrencyId(dateId,currencyId);//.getValue();//dateId, currencyId).getValue();
+
+    }
+
 
 }
