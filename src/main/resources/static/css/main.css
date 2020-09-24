@@ -1,0 +1,103 @@
+body {
+  background-color: #FFFFCC;
+}
+h1 {
+    text-align: center;
+}
+
+.mainDiv{
+  width:700px;
+  height: 220px;
+  background-color: #ffffff;
+  border: 2px solid #D4D4D4;
+  border-radius: 10px;
+  box-shadow: 0 0 15px #A9A9A9;
+  margin: auto;
+  margin-top:100px;
+}
+
+
+.block {
+  margin: 2px;
+  display: inline-block;
+}
+select{
+  display: table;
+  width: 300px;
+  height: 28px;
+  background-color: #ffffff;
+  border: 2px solid #D4D4D4;
+  border-radius: 5px;
+  box-shadow: 0 0 15px #A9A9A9;
+  margin: auto
+}
+select:focus{
+  outline: 0;
+}
+
+
+input.text{
+  width: 292px;
+  height: 20px;
+  background-color: #ffffff;
+  border: 2px solid #D4D4D4;
+  border-radius: 5px;
+  box-shadow: 0 0 15px #A9A9A9;
+  margin: auto
+}
+
+input.text:focus{
+  outline: 0;
+}
+
+input.calendar{
+  width: 295px;
+  height: 26px;
+  background-color: #ffffff;
+  border: 2px solid #D4D4D4;
+  border-radius: 5px;
+  box-shadow: 0 0 15px #A9A9A9;
+  margin-left:4px;
+}
+
+input.calendar :focus{
+                 outline: 0;
+}
+.container{
+    width: 640px;
+    margin: auto;
+}
+button{
+  width: 302px;
+  height: 30px;
+  background-color: #ffffff;
+  border: 2px solid #D4D4D4;
+  border-radius: 5px;
+  box-shadow: 0 0 15px #A9A9A9;
+  margin: auto
+}
+button:focus{
+  outline: 0;
+}
+
+button:active{
+    background-color: #FFFFCC;
+}
+button.swap:active{
+    background-color: #FFFFCC;
+}
+
+
+button.swap{
+  width: 611px;
+  height: 30px;
+  background-color: #ffffff;
+  border: 2px solid #D4D4D4;
+  border-radius: 5px;
+  box-shadow: 0 0 15px #A9A9A9;
+  margin-left:30px;
+  margin-top:3px;
+}
+button.swap:focus{
+  outline: 0;
+}

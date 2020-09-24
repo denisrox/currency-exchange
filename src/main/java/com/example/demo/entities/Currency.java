@@ -3,7 +3,9 @@ package com.example.demo.entities;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @Entity
@@ -16,14 +18,34 @@ public class Currency {
 
     private String title;
 
-    @ManyToMany//(mappedBy = "currencyList")
-    @JoinTable(
-            name = "orderss",
-            joinColumns = @JoinColumn(name = "currencyid"),  // то что связываем
-            inverseJoinColumns = @JoinColumn(name = "dateid") // то на что связываем
+    @OneToMany(
+            mappedBy = "currency",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
-    private List<Dates> dates;
+    private List<Orders> listOrders = new ArrayList<>();
 
+    public Currency(){}
+    public Currency(int numcode, String title ){
+        this.numcode=numcode;
+        this.title=title;
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Currency currency = (Currency) o;
+        return Objects.equals(numcode, currency.numcode);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(numcode);
+    }
+
+    @Override
+    public String toString(){
+        return (numcode+title);
+    }
 }
