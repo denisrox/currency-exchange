@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.xml.sax.SAXException;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.math.RoundingMode;
@@ -69,18 +70,7 @@ public class ConverterController {
         Dates dates = datesService.getOneByDaterequest(date);
 
         if(fromSelect!=null&&fromInput!=null&&toSelect!=null){
-            Currency currencyFrom = currencyService.getOneByNumcode(fromSelect);
-            Currency currencyTo = currencyService.getOneByNumcode(toSelect);
-            System.out.println(currencyFrom==null);
-            System.out.println(currencyTo==null);
-            float x = ordersService.getValueById(dates.getId(),currencyFrom.getId());
-            float y = ordersService.getValueById(dates.getId(),currencyTo.getId());
-            DecimalFormat df = new DecimalFormat("#.##");
-            String value= df.format(x/y*fromInput);
-            model.addAttribute("fromSelect",fromSelect);
-            model.addAttribute("fromInput",fromInput);
-            model.addAttribute("toSelect",toSelect);
-            model.addAttribute("value",value);
+            addedAttribute(model,fromSelect,toSelect,fromInput,dates);
         }
 
 
@@ -88,6 +78,34 @@ public class ConverterController {
         model.addAttribute("currencyes",dates.getListOrders());
 
         return "greeting";
+    }
+    void addedAttribute(Model model, Integer fromSelect, Integer toSelect,Float fromInput, Dates dates){
+        //Currency currencyFrom;
+        //fromSelect!=0?currencyFrom = currencyService.getOneByNumcode(fromSelect):currencyFrom=new Currency();
+        //Currency currencyFrom = currencyService.getOneByNumcode(fromSelect);
+        //Currency currencyTo = currencyService.getOneByNumcode(toSelect);
+        float x,y;
+        if(fromSelect==0){
+            x=1;
+        }else{
+            Currency currencyFrom = currencyService.getOneByNumcode(fromSelect);
+            x = ordersService.getValueById(dates.getId(),currencyFrom.getId());
+        }
+
+        if(toSelect==0){
+            y=1;
+        }else{
+            Currency currencyTo = currencyService.getOneByNumcode(toSelect);
+            y = ordersService.getValueById(dates.getId(),currencyTo.getId());
+        }
+
+
+        DecimalFormat df = new DecimalFormat("#.##");
+        String value= df.format(x/y*fromInput);
+        model.addAttribute("fromSelect",fromSelect);
+        model.addAttribute("fromInput",fromInput);
+        model.addAttribute("toSelect",toSelect);
+        model.addAttribute("value",value);
     }
 
 

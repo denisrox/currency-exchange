@@ -13,6 +13,7 @@
         <div class="container">
             <div class="block">
                 <select name="fromSelect">
+                    <option th:selected="${fromSelect==0}" value="0">Рубль</option>
                     <option
                             th:each="currency, stat : ${currencyes}"
                             th:selected="${currency.getCurrency().getNumcode()==fromSelect}"
@@ -24,6 +25,7 @@
             </div>
             <div class="block">
                 <select name="toSelect">
+                    <option th:selected="${fromSelect==0}" value="0">Рубль</option>
                     <option th:each="currency, stat : ${currencyes}"
                             th:selected="${currency.getCurrency().getNumcode()==toSelect}"
                             th:value="${currency.getCurrency().getNumcode()}"

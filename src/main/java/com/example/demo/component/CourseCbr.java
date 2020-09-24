@@ -29,9 +29,11 @@ public class CourseCbr {
             NodeList nodeList = document.getChildNodes();
             int countElements = nodeList.item(0).getChildNodes().getLength();
 
+
             for(int x=0; x<countElements; x++) {
                 int numCode=Integer.parseInt(nodeList.item(0).getChildNodes().item(x).getChildNodes().item(0).getTextContent());
-                float value=Float.parseFloat((nodeList.item(0).getChildNodes().item(x).getChildNodes().item(4).getTextContent()).replace(',','.'));
+                int nominal=Integer.parseInt(nodeList.item(0).getChildNodes().item(x).getChildNodes().item(2).getTextContent());
+                float value=Float.parseFloat((nodeList.item(0).getChildNodes().item(x).getChildNodes().item(4).getTextContent()).replace(',','.'))/nominal;
 
                 Currency currency = currencyService.getOneByNumcode(numCode);
 
