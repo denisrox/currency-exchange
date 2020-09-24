@@ -8,43 +8,38 @@
 <body>
 
 <div class="mainDiv">
-    <h1 th:text="${date}">Курс валют на сегодня</h1>
+    <h1 th:text="'Курс валют на '+${date}"></h1>
     <form method="get" action="/greeting">
         <div class="container">
             <div class="block">
                 <select name="fromSelect">
-                    <option th:each="currency, stat : ${currencyes}" th:value="${currency.getCurrency().getNumcode()}" th:text="${currency.getCurrency().getTitle()}">
+                    <option
+                            th:each="currency, stat : ${currencyes}"
+                            th:selected="${currency.getCurrency().getNumcode()==fromSelect}"
+                            th:value="${currency.getCurrency().getNumcode()}"
+                            th:text="${currency.getCurrency().getTitle()}">
                     </option>
                 </select>
-                <input type="text" name="fromInput" />
+                <input type="text" th:value="${fromInput}" name="fromInput" />
             </div>
             <div class="block">
                 <select name="toSelect">
-                    <option th:each="currency, stat : ${currencyes}" th:value="${currency.getCurrency().getNumcode()}" th:text="${currency.getCurrency().getTitle()}">
+                    <option th:each="currency, stat : ${currencyes}"
+                            th:selected="${currency.getCurrency().getNumcode()==toSelect}"
+                            th:value="${currency.getCurrency().getNumcode()}"
+                            th:text="${currency.getCurrency().getTitle()}">
+
                     </option>
                 </select>
-                <input type="text" readonly="readonly" />
+                <input type="text" th:value="${value}"readonly="readonly" />
             </div>
             <br>
             <button type="submit">Конвертировать</button>
-            <input type="date" name="dateInput">
+            <input type="date" name="dateInput" th:value="${date}">
         </div>
 
 
     </form>
 </div>
-    <table >
-
-        <tr>
-            <th>Наименование</th>
-            <th>Курс</th>
-        </tr>
-        <tr th:each="rate : ${exchangeRates}">
-<!--            <span th:text="${rate.key}"></span>-->
-<!--            <span th:text="${rate.value}"></span>-->
-            <td th:text="${rate.key}"></td>
-            <td th:text="${rate.value}"></td>
-        </tr>
-    </table>
 </body>
 </html>

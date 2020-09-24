@@ -17,7 +17,9 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.math.RoundingMode;
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.SimpleTimeZone;
@@ -56,10 +58,7 @@ public class ConverterController {
                            @RequestParam(required=false) String dateInput,
                            Model model) throws IOException, SAXException, ParserConfigurationException
     {
-        System.out.println(fromSelect);
-        System.out.println(fromInput);
-        System.out.println(toSelect);
-        System.out.println(dateInput);
+
         Date date;
         try {
             date = Date.valueOf(dateInput);
@@ -67,7 +66,6 @@ public class ConverterController {
             date = new Date(Calendar.getInstance().getTime().getTime());
         }
 
-        System.out.println(date.toString());
         Dates dates = datesService.getOneByDaterequest(date);
 
         if(fromSelect!=null&&fromInput!=null&&toSelect!=null){
@@ -77,28 +75,17 @@ public class ConverterController {
             System.out.println(currencyTo==null);
             float x = ordersService.getValueById(dates.getId(),currencyFrom.getId());
             float y = ordersService.getValueById(dates.getId(),currencyTo.getId());
-            System.out.println("==="+x+"===="+y);
+            DecimalFormat df = new DecimalFormat("#.##");
+            String value= df.format(x/y*fromInput);
+            model.addAttribute("fromSelect",fromSelect);
+            model.addAttribute("fromInput",fromInput);
+            model.addAttribute("toSelect",toSelect);
+            model.addAttribute("value",value);
         }
 
 
-        //dates.getListOrders().get(0).getCurrency().getNumcode();
-        model.addAttribute("date","Конвертер на "+date.toString());
+        model.addAttribute("date",date.toString());
         model.addAttribute("currencyes",dates.getListOrders());
-
-        //Dates dates = datesService.getOneByDaterequest(date);
-
-
-        //System.out.println(xml.getXML());
-        //model.addAttribute("exchangeRates",xml.getXML());
-        //Dates date=datesService.getOne(1);
-        //System.out.println(date.toString());
-
-
-        //Date date = Date.valueOf("2020-02-08");
-
-        //System.out.println(new Date(Calendar.getInstance().getTime().getTime()));
-        //System.out.println(dates.toString());
-
 
         return "greeting";
     }

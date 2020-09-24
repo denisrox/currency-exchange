@@ -26,18 +26,19 @@ public class DatesService {
     public Dates getOneByDaterequest(Date date){
         Dates dates = iDatesRepository.findByDaterequest(date);
         if(dates == null){
-            CreateNewDates(date, dates);
+            dates = CreateNewDates(date, dates);
         }
         return dates;
     }
 
 
-    private void CreateNewDates(Date date, Dates dates){
+    private Dates CreateNewDates(Date date, Dates dates){
         dates = new Dates();
         dates.setDaterequest(date);
         iDatesRepository.save(dates);
         curseCbr.getCurrencys(dates);
         iDatesRepository.save(dates);
+        return dates;
     }
 
 
