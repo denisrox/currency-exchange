@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<script>
+    function swapCurrent() {
+        document.getElementById('toInput').value='0';
+        var valueSelect= document.getElementById('fromSelect').value;
+        document.getElementById('fromSelect').value=document.getElementById('toSelect').value;
+        document.getElementById('toSelect').value=valueSelect;
+    }
+</script>
+<div class="mainDiv">
+    <h1 th:text="'Курс валют на '+${date}"></h1>
+    <form method="get" action="/">
+        <div class="container">
+            <div class="block">
+                <select id = "fromSelect" name="fromNumCode">
+                    <option th:selected="${fromNumCode==0}" value="0">Рубль</option>
+                    <option
+                            th:each="currency, stat : ${currencyes}"
+                            th:selected="${currency.getCurrency().getNumcode()==fromNumCode}"
+                            th:value="${currency.getCurrency().getNumcode()}"
+                            th:text="${currency.getCurrency().getTitle()}">
+                    </option>
+                </select>
+                <input id = "fromInput" class = "text" type="text" th:value="${fromCountMoney}" name="fromCountMoney" />
+            </div>
+            <div class="block">
+                <select id = "toSelect" name="toNumCode">
+                    <option th:selected="${toNumCode==0}" value="0">Рубль</option>
+                    <option th:each="currency, stat : ${currencyes}"
+                            th:selected="${currency.getCurrency().getNumcode()==toNumCode}"
+                            th:value="${currency.getCurrency().getNumcode()}"
+                            th:text="${currency.getCurrency().getTitle()}">
+
+                    </option>
+                </select>
+                <input id = "toInput" class = "text" type="text" th:value="${toCountMoney}"readonly="readonly" />
+            </div>
+            <button type="submit">Конвертировать</button>
+            <input class = "calendar" type="date" name="dateInput" th:value="${date}">
+        </div>
+    </form>
+    <button onclick="swapCurrent()" class="swap" >поменять местами тип валюты</button>
+</div>
+</body>
+</html>

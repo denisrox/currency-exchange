@@ -4,8 +4,6 @@ import com.example.demo.entities.Currency;
 import com.example.demo.entities.Dates;
 import com.example.demo.entities.Orders;
 import com.example.demo.services.CurrencyService;
-import com.example.demo.services.DatesService;
-import com.example.demo.services.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
@@ -30,16 +28,16 @@ public class CourseCbr {
             int countElements = nodeList.item(0).getChildNodes().getLength();
 
 
-            for(int x=0; x<countElements; x++) {
-                int numCode=Integer.parseInt(nodeList.item(0).getChildNodes().item(x).getChildNodes().item(0).getTextContent());
-                int nominal=Integer.parseInt(nodeList.item(0).getChildNodes().item(x).getChildNodes().item(2).getTextContent());
-                float value=Float.parseFloat((nodeList.item(0).getChildNodes().item(x).getChildNodes().item(4).getTextContent()).replace(',','.'))/nominal;
+            for(int i=0; i<countElements; i++) {
+                int numCode=Integer.parseInt(nodeList.item(0).getChildNodes().item(i).getChildNodes().item(0).getTextContent());
+                int nominal=Integer.parseInt(nodeList.item(0).getChildNodes().item(i).getChildNodes().item(2).getTextContent());
+                float value=Float.parseFloat((nodeList.item(0).getChildNodes().item(i).getChildNodes().item(4).getTextContent()).replace(',','.'))/nominal;
 
                 Currency currency = currencyService.getOneByNumcode(numCode);
 
                 if(currency==null)
                 {
-                    String title = (nodeList.item(0).getChildNodes().item(x).getChildNodes().item(3).getTextContent());
+                    String title = (nodeList.item(0).getChildNodes().item(i).getChildNodes().item(3).getTextContent());
                     currency = currencyService.createNewCurrency(numCode,title);
                 }
                 List<Orders> listOrders=dates.getListOrders();
@@ -48,13 +46,10 @@ public class CourseCbr {
                 Orders order = new Orders(dates,currency,value);
                 listOrders.add(order);
                 dates.setListOrders(listOrders);
-
-
-
             }
 
         } catch (Exception ex) {
-            System.out.println("Ошибка: "+ ex.getMessage());
+            System.out.println("Error: "+ ex.getMessage());
         }
     }
 

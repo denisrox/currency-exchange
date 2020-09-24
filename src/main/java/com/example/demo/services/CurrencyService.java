@@ -14,10 +14,6 @@ public class CurrencyService {
     @Autowired
     private ICurrencyRepository iCurrencyRepository;
 
-    public List<Currency> findAll(){
-        return iCurrencyRepository.findAll();//new ArrayList<Currency>();
-    }
-
 
     public Currency getOneByNumcode(int numcode){
         Currency currency = iCurrencyRepository.findByNumcode(numcode);

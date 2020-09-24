@@ -15,16 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.xml.sax.SAXException;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.math.RoundingMode;
 import java.sql.Date;
 import java.text.DecimalFormat;
 import java.util.Calendar;
-import java.util.List;
-import java.util.SimpleTimeZone;
-import java.util.TimeZone;
 
 @Controller
 public class ConverterController {
@@ -38,24 +33,10 @@ public class ConverterController {
 
 
 
-    @GetMapping(value = "/")
-    public String index (Model model){
-        List<Currency> currencyList=currencyService.findAll();
-
-        model.addAttribute("currency", currencyService.findAll());
-        return "index";
-    }
-
-    @PostMapping(value = "/")
-    public void index (int i){
-        System.out.println(i);
-    }
-
-
-    @GetMapping("/greeting")
-    public String greeting(@RequestParam(required=false) Integer fromSelect,
-                           @RequestParam(required=false) Float fromInput,
-                           @RequestParam(required=false) Integer toSelect,
+    @GetMapping("/")
+    public String greeting(@RequestParam(required=false) Integer fromNumCode,
+                           @RequestParam(required=false) Float fromCountMoney,
+                           @RequestParam(required=false) Integer toNumCode,
                            @RequestParam(required=false) String dateInput,
                            Model model) throws IOException, SAXException, ParserConfigurationException
     {
@@ -66,50 +47,41 @@ public class ConverterController {
         }catch (Exception e){
             date = new Date(Calendar.getInstance().getTime().getTime());
         }
-
         Dates dates = datesService.getOneByDaterequest(date);
 
-        if(fromSelect!=null&&fromInput!=null&&toSelect!=null){
-            addedAttribute(model,fromSelect,toSelect,fromInput,dates);
+        if(fromNumCode!=null&&toNumCode!=null&&fromCountMoney!=null){
+            addedAttribute(model,fromNumCode,toNumCode,fromCountMoney,dates);
         }
 
 
         model.addAttribute("date",date.toString());
         model.addAttribute("currencyes",dates.getListOrders());
 
-        return "greeting";
+        return "converter";
     }
-    void addedAttribute(Model model, Integer fromSelect, Integer toSelect,Float fromInput, Dates dates){
-        //Currency currencyFrom;
-        //fromSelect!=0?currencyFrom = currencyService.getOneByNumcode(fromSelect):currencyFrom=new Currency();
-        //Currency currencyFrom = currencyService.getOneByNumcode(fromSelect);
-        //Currency currencyTo = currencyService.getOneByNumcode(toSelect);
-        float x,y;
-        if(fromSelect==0){
-            x=1;
+    void addedAttribute(Model model, Integer fromNumCode, Integer toNumCode,Float fromCountMoney, Dates dates){
+        float costFromCurrency,costToCurrency;
+        if(fromNumCode==0){
+            costFromCurrency=1;
         }else{
-            Currency currencyFrom = currencyService.getOneByNumcode(fromSelect);
-            x = ordersService.getValueById(dates.getId(),currencyFrom.getId());
+            Currency currencyFrom = currencyService.getOneByNumcode(fromNumCode);
+            costFromCurrency = ordersService.getValueById(dates.getId(),currencyFrom.getId());
         }
 
-        if(toSelect==0){
-            y=1;
+        if(toNumCode==0){
+            costToCurrency=1;
         }else{
-            Currency currencyTo = currencyService.getOneByNumcode(toSelect);
-            y = ordersService.getValueById(dates.getId(),currencyTo.getId());
+            Currency currencyTo = currencyService.getOneByNumcode(toNumCode);
+            costToCurrency = ordersService.getValueById(dates.getId(),currencyTo.getId());
         }
-
+        if(costFromCurrency == 0 || costToCurrency==0) //метод getValueById возвращает 0 тогда, когда не находит нужную валюту
+            return;                                    //а это значит, что в данном году нет информации на сайте CBR про эту валюту
 
         DecimalFormat df = new DecimalFormat("#.##");
-        String value= df.format(x/y*fromInput);
-        model.addAttribute("fromSelect",fromSelect);
-        model.addAttribute("fromInput",fromInput);
-        model.addAttribute("toSelect",toSelect);
-        model.addAttribute("value",value);
+        String toCountMoney= df.format(fromCountMoney*costFromCurrency/costToCurrency);
+        model.addAttribute("fromNumCode",fromNumCode);
+        model.addAttribute("fromCountMoney",fromCountMoney);
+        model.addAttribute("toNumCode",toNumCode);
+        model.addAttribute("toCountMoney",toCountMoney);
     }
-
-
-
-    //@GetMapping(value = "/1")
-
 }
